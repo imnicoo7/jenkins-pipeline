@@ -1,0 +1,19 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Llamar a Hijo 1') {
+            steps {
+                echo 'Llamando a hijo 1...'
+                build job: 'hijo1'
+            }
+        }
+        
+        stage('Llamar a Hijo 2') {
+            steps {
+                echo 'Llamando a hijo 2...'
+                build job: 'hijo2'
+            }
+        }
+    }
+}

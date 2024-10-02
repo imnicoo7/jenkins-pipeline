@@ -1,0 +1,11 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Tarea del Hijo 2') {
+            steps {
+                echo 'Este es el pipeline del Hijo 2'
+            }
+        }
+    }
+}
