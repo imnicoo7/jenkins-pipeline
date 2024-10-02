@@ -2,17 +2,33 @@ pipeline {
     agent any
 
     stages {
-        stage('Llamar a Hijo 1') {
+        stage('Ejecutar Script Python') {
             steps {
-                echo 'Llamando a hijo 1...'
-                build job: 'hijo1'
+                echo 'Ejecutando script en Python...'
+                // Ejecutar el script Python
+                sh 'python3 generar_dataframe.py'
             }
         }
-        
-        stage('Llamar a Hijo 2') {
+
+        stage('Leer el DataFrame y tomar decisiones') {
             steps {
-                echo 'Llamando a hijo 2...'
-                build job: 'hijo2'
+                script {
+                    // Leer el archivo CSV generado
+                    def data = readCSV file: 'resultado.csv'
+
+                    // Iterar sobre las filas del DataFrame y tomar decisiones
+                    data.each { row ->
+                        if (row.Tarea == 'Hijo 1' && row.Estado == 'Pendiente') {
+                            echo 'Llamando a hijo 1...'
+                            build job: 'hijo1'
+                        } else if (row.Tarea == 'Hijo 2' && row.Estado == 'Pendiente') {
+                            echo 'Llamando a hijo 2...'
+                            build job: 'hijo2'
+                        } else {
+                            echo "No hay tareas pendientes."
+                        }
+                    }
+                }
             }
         }
     }
