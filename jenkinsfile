@@ -6,7 +6,7 @@ pipeline {
             steps {
                 echo 'Ejecutando script en Python...'
                 // Ejecutar el script Python
-                sh 'python3 generar_dataframe.py'
+                sh 'python3 dataframe.py'
             }
         }
 
