@@ -9,6 +9,11 @@ pipeline {
         //         git  'https://github.com/imnicoo7/jenkins-pipeline.git'
         //     }
         // }
+        stage('Instalar pandas') {
+            steps {
+                sh 'pip install pandas' // Instalar pandas porque jenkins no toma de la maquina
+            }
+        }
 
         stage('Ejecutar Script Python') {
             steps {
