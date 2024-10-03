@@ -2,10 +2,22 @@ pipeline {
     agent any
 
     stages {
+        // cuandp necesite clonar distintos repositorios
+        // stage('Checkout SCM') {
+        //     steps {
+        //         git 'https://github.com/imnicoo7/jenkins-pipeline.git'
+        //     }
+        // }
+        stage('Instalar pandas') {
+            steps {
+                sh 'pip install pandas' // Instalar pandas en caso de que no esté instalado
+            }
+        }
+
         stage('Ejecutar Script Python') {
             steps {
                 echo 'Ejecutando script en Python...'
-                // Ejecutar el script Python
+                // Ejecutar el script Python sh usado para llamar el archivo
                 sh 'python3 dataframe.py'
             }
         }
