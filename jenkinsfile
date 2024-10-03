@@ -10,7 +10,7 @@ pipeline {
         // }
         stage('Instalar pandas') {
             steps {
-                sh 'pip install pandas' // Instalar pandas en caso de que no esté instalado
+                sh 'pip3 install pandas' // Instalar pandas porque jenkins no toma la de la maquina
             }
         }
 
