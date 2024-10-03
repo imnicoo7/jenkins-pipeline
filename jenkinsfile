@@ -11,7 +11,7 @@ pipeline {
         // }
         stage('Instalar pandas') {
             steps {
-                sh 'pip install pandas' // Instalar pandas porque jenkins no toma de la maquina
+                sh 'sudo pip install pandas' // Instalar pandas porque jenkins no toma de la maquina
             }
         }
 
