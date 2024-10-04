@@ -5,8 +5,8 @@ def leer_dependencias():
     for line in lines:
         if 'knime' in line.lower():
             print('KNIME')
-        elif 'bq' in line.lower():  # Detecta BigQuery
-            print('BigQuery')
+        elif 'consultaprogramada' in line.lower():
+            print('Consulta programada')
         else:
             print('No es un proceso conocido.')
 
