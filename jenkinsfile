@@ -2,12 +2,12 @@ pipeline {
     agent any
 
     stages {
-        // stage('CHECKOUT SCM') {
-        //     steps {
-        //         // Clona el repositorio donde está el archivo dataframe.py
-        //         git 'https://github.com/imnicoo7/jenkins-pipeline.git'
-        //     }
-        // }
+        stage('CHECKOUT SCM') {
+            steps {
+                // Clona el repositorio donde está el archivo dataframe.py y leer_csv.py
+                git 'https://github.com/imnicoo7/jenkins-pipeline.git'
+            }
+        }
 
         stage('Revisar instalacion pandas') {
             steps {
@@ -26,18 +26,8 @@ pipeline {
         stage('Leer el DataFrame y tomar decisiones') {
             steps {
                 script {
-                    // Ejecutar un script Python para leer el CSV y devolver las tareas pendientes
-                    def csvData = sh(script: '''
-                        python3 -c "
-import pandas as pd
-df = pd.read_csv('resultado.csv')
-for index, row in df.iterrows():
-    if row['Tarea'] == 'Hijo 1' and row['Estado'] == 'Pendiente':
-        print('Hijo 1')
-    elif row['Tarea'] == 'Hijo 2' and row['Estado'] == 'Pendiente':
-        print('Hijo 2')
-"
-                    ''', returnStdout: true).trim()
+                    // Ejecutar el archivo Python leer_csv.py para leer el CSV y devolver las tareas pendientes
+                    def csvData = sh(script: 'python3 leer_csv.py', returnStdout: true).trim()
 
                     // Iterar sobre las tareas pendientes devueltas por el script
                     csvData.split('\n').each { task ->
