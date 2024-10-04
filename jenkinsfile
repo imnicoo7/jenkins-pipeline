@@ -2,12 +2,12 @@ pipeline {
     agent any
 
     stages {
-        stage('CHECKOUT SCM') {
-            steps {
-                // Clona el repositorio donde está el archivo dataframe.py
-                git 'https://github.com/imnicoo7/jenkins-pipeline.git'
-            }
-        }
+        // stage('CHECKOUT SCM') {
+        //     steps {
+        //         // Clona el repositorio donde está el archivo dataframe.py
+        //         git 'https://github.com/imnicoo7/jenkins-pipeline.git'
+        //     }
+        // }
 
         stage('Revisar instalacion pandas') {
             steps {
@@ -26,16 +26,25 @@ pipeline {
         stage('Leer el DataFrame y tomar decisiones') {
             steps {
                 script {
-                    // Leer el archivo CSV generado usando comandos de shell y awk
-                    def csvData = sh(script: "awk -F',' 'NR>1{print \$1\",\" \$2}' resultado.csv", returnStdout: true).trim()
-                    
-                    // Iterar sobre las filas del CSV
-                    csvData.split('\n').each { row ->
-                        def (tarea, estado) = row.split(',')
-                        if (tarea == 'Hijo 1' && estado == 'Pendiente') {
+                    // Ejecutar un script Python para leer el CSV y devolver las tareas pendientes
+                    def csvData = sh(script: '''
+                        python3 -c "
+import pandas as pd
+df = pd.read_csv('resultado.csv')
+for index, row in df.iterrows():
+    if row['Tarea'] == 'Hijo 1' and row['Estado'] == 'Pendiente':
+        print('Hijo 1')
+    elif row['Tarea'] == 'Hijo 2' and row['Estado'] == 'Pendiente':
+        print('Hijo 2')
+"
+                    ''', returnStdout: true).trim()
+
+                    // Iterar sobre las tareas pendientes devueltas por el script
+                    csvData.split('\n').each { task ->
+                        if (task == 'Hijo 1') {
                             echo 'Llamando a hijo 1...'
                             build job: 'hijo1'
-                        } else if (tarea == 'Hijo 2' && estado == 'Pendiente') {
+                        } else if (task == 'Hijo 2') {
                             echo 'Llamando a hijo 2...'
                             build job: 'hijo2'
                         } else {
@@ -45,6 +54,5 @@ pipeline {
                 }
             }
         }
-
     }
 }
