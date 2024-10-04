@@ -1,14 +1,19 @@
+# Leer_readme.py
+
 def leer_dependencias():
-    with open('README.md', 'r') as file:
-        lines = file.readlines()
+    dependencias = []  # Lista para almacenar todas las coincidencias
+    with open('readme.md', 'r') as file:
+        for line in file:
+            if 'knime' in line.lower():
+                dependencias.append('KNIME')  # Agregar 'KNIME' a la lista
+            elif 'consultaprogramada' in line.lower():
+                dependencias.append('ConsultaProgramada')  # Agregar 'ConsultaProgramada' a la lista
+            else:
+                dependencias.append('NoReconocido')  # Agregar 'NoReconocido' si no coincide con nada conocido
+    return dependencias
 
-    for line in lines:
-        if 'knime' in line.lower():
-            print('KNIME')
-        elif 'consultaprogramada' in line.lower():
-            print('Consulta programada')
-        else:
-            print('No es un proceso conocido.')
-
+# Si el archivo se ejecuta como script principal
 if __name__ == "__main__":
-    leer_dependencias()
+    dependencias = leer_dependencias()
+    for dep in dependencias:
+        print(dep)  # Imprimir cada dependencia encontrada
