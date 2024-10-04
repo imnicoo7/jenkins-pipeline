@@ -6,7 +6,7 @@ def leer_tareas():
     for index, row in df.iterrows():
         if row['Tarea'] == 'Hijo 1' and row['Estado'] == 'Pendiente':
             print('Hijo 1')
-        elif row['Tarea'] == 'Hijo 2' and row['Estado'] == 'Pendiente':
+        elif row['Tarea'] == 'Hijo 2' and row['Estado'] == 'Completado':
             print('Hijo 2')
 
 if __name__ == "__main__":
