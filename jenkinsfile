@@ -29,14 +29,14 @@ pipeline {
                     // Ejecutar un script Python para leer el CSV y devolver las tareas pendientes
                     def csvData = sh(script: '''
                         python3 -c "
-                        import pandas as pd
-                        df = pd.read_csv('resultado.csv')
-                        for index, row in df.iterrows():
-                            if row['Tarea'] == 'Hijo 1' and row['Estado'] == 'Pendiente':
-                                print('Hijo 1')
-                            elif row['Tarea'] == 'Hijo 2' and row['Estado'] == 'Pendiente':
-                                print('Hijo 2')
-                        "
+import pandas as pd
+df = pd.read_csv('resultado.csv')
+for index, row in df.iterrows():
+    if row['Tarea'] == 'Hijo 1' and row['Estado'] == 'Pendiente':
+        print('Hijo 1')
+    elif row['Tarea'] == 'Hijo 2' and row['Estado'] == 'Pendiente':
+        print('Hijo 2')
+"
                     ''', returnStdout: true).trim()
 
                     // Iterar sobre las tareas pendientes devueltas por el script
