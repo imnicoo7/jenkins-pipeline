@@ -2,12 +2,12 @@ pipeline {
     agent any
 
     stages {
-        stage('CHECKOUT SCM') {
-            steps {
-                // Clona el repositorio donde está el archivo dataframe.py y leer_csv.py
-                git 'https://github.com/imnicoo7/jenkins-pipeline.git'
-            }
-        }
+        // stage('CHECKOUT SCM') {
+        //     steps {
+        //         // Clona el repositorio donde está el archivo dataframe.py y leer_csv.py
+        //         git 'https://github.com/imnicoo7/jenkins-pipeline.git'
+        //     }
+        // }
 
         stage('Revisar instalacion pandas') {
             steps {
