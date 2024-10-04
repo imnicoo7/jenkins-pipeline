@@ -2,24 +2,23 @@ pipeline {
     agent any
 
     stages {
-        
         stage('CHECKOUT SCM') {
             steps {
                 // Clona el repositorio donde está el archivo dataframe.py
-                git  'https://github.com/imnicoo7/jenkins-pipeline.git'
-                }
+                git 'https://github.com/imnicoo7/jenkins-pipeline.git'
+            }
         }
-        
-        stage('Instalar pandas') {
+
+        stage('Revisar instalacion pandas') {
             steps {
-                sh 'pip install --user pandas' // Instalar pandas porque jenkins no toma la de la maquina
+                sh 'pip list' // revisar que se tenga pandas instalado
             }
         }
 
         stage('Ejecutar Script Python') {
             steps {
                 echo 'Ejecutando script en Python...'
-                // Ejecutar el script Python sh usado para llamar el archivo
+                // Ejecutar el script Python para generar el archivo CSV
                 sh 'python3 dataframe.py'
             }
         }
@@ -27,19 +26,29 @@ pipeline {
         stage('Leer el DataFrame y tomar decisiones') {
             steps {
                 script {
-                    // Leer el archivo CSV generado
-                    def data = readCSV file: 'resultado.csv'
+                    // Ejecutar un script Python para leer el CSV y devolver las tareas pendientes
+                    def csvData = sh(script: '''
+                        python3 -c "
+                        import pandas as pd
+                        df = pd.read_csv('resultado.csv')
+                        for index, row in df.iterrows():
+                            if row['Tarea'] == 'Hijo 1' and row['Estado'] == 'Pendiente':
+                                print('Hijo 1')
+                            elif row['Tarea'] == 'Hijo 2' and row['Estado'] == 'Pendiente':
+                                print('Hijo 2')
+                        "
+                    ''', returnStdout: true).trim()
 
-                    // Iterar sobre las filas del DataFrame y tomar decisiones
-                    data.each { row ->
-                        if (row.Tarea == 'Hijo 1' && row.Estado == 'Pendiente') {
+                    // Iterar sobre las tareas pendientes devueltas por el script
+                    csvData.split('\n').each { task ->
+                        if (task == 'Hijo 1') {
                             echo 'Llamando a hijo 1...'
                             build job: 'hijo1'
-                        } else if (row.Tarea == 'Hijo 2' && row.Estado == 'Pendiente') {
+                        } else if (task == 'Hijo 2') {
                             echo 'Llamando a hijo 2...'
                             build job: 'hijo2'
                         } else {
-                            echo "No hay tareas pendientes."
+                            echo 'No hay tareas pendientes.'
                         }
                     }
                 }
