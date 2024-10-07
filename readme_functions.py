@@ -135,7 +135,7 @@ class DataOps_utils():
         else:
             print(df[0])
 
-        return acciones
+        return ','.join(acciones)
 
 if __name__ == "__main__":
     # La ruta del directorio se pasa como argumento al script
