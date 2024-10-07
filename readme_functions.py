@@ -112,14 +112,14 @@ class DataOps_utils():
         según la columna 'Tipo Objeto'. Si el 'Tipo Objeto' es "KNIME" o "CONSULTA PROGRAMADA", se añade 
         una acción correspondiente a la lista de acciones a ejecutar.
         
-        - Si el 'Tipo Objeto' es "KNIME", añade la acción 'KNIME'.
-        - Si el 'Tipo Objeto' es "CONSULTA PROGRAMADA", añade la acción 'ConsultaProgramada'.
+        - Si el 'Tipo Objeto' es "KNIME", añade la acción 'knime'.
+        - Si el 'Tipo Objeto' es "CONSULTA PROGRAMADA", añade la acción 'consultaprogramada'.
 
-        Retorna una lista con las acciones identificadas.
+        Retorna una cadena con las acciones identificadas separadas por comas.
 
         Returns:
-            list: Una lista con las acciones que deben ser ejecutadas, basada en el tipo de objeto 
-            en el DataFrame. Por ejemplo, 'KNIME' o 'ConsultaProgramada'.
+            str: Una cadena con las acciones que deben ser ejecutadas, basada en el tipo de objeto 
+            en el DataFrame. Por ejemplo, 'knime,consultaprogramada'.
         """
         
         acciones = []
@@ -137,10 +137,10 @@ class DataOps_utils():
 
         return ','.join(acciones)
 
+
 if __name__ == "__main__":
     # La ruta del directorio se pasa como argumento al script
     directory_path = sys.argv[1]
-    # directory_path = './DataOps'
     
     # Crear una instancia de la clase
     dataops = DataOps_utils(directory_path)
@@ -148,4 +148,3 @@ if __name__ == "__main__":
     # Llama a la función que encuentra las dependencias
     dependencias = dataops.leer_dependencias()
     print(dependencias)
-    
