@@ -147,3 +147,5 @@ if __name__ == "__main__":
     
     # Llama a la función que encuentra las dependencias
     dependencias = dataops.leer_dependencias()
+    print(dependencias)
+    
